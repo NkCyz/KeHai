@@ -1,0 +1,116 @@
+[
+  {
+    "name": "公司目录",
+    "router": "/company",
+    "perms": null,
+    "type": 0,
+    "icon": "icon-app",
+    "orderNum": 20,
+    "viewPath": null,
+    "keepAlive": true,
+    "isShow": true,
+    "childMenus": [
+      {
+        "name": "销售部",
+        "router": null,
+        "perms": null,
+        "type": 0,
+        "icon": "icon-goods",
+        "orderNum": 1,
+        "viewPath": null,
+        "keepAlive": true,
+        "isShow": true,
+        "childMenus": [
+          {
+            "name": "询价管理",
+            "router": "/company/inquiry",
+            "perms": null,
+            "type": 1,
+            "icon": "icon-log",
+            "orderNum": 1,
+            "viewPath": "modules/company/views/inquiry.vue",
+            "keepAlive": true,
+            "isShow": true,
+            "childMenus": [
+              {
+                "name": "权限",
+                "router": null,
+                "perms": "company:inquiry:page,company:inquiry:list,company:inquiry:info,company:inquiry:add,company:inquiry:update,company:inquiry:delete",
+                "type": 2,
+                "icon": null,
+                "orderNum": 0,
+                "viewPath": null,
+                "keepAlive": true,
+                "isShow": true,
+                "childMenus": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "供应链部",
+        "router": null,
+        "perms": null,
+        "type": 0,
+        "icon": "icon-data",
+        "orderNum": 2,
+        "viewPath": null,
+        "keepAlive": true,
+        "isShow": true,
+        "childMenus": [
+          {
+            "name": "报价管理",
+            "router": "/company/quote",
+            "perms": null,
+            "type": 1,
+            "icon": "icon-menu",
+            "orderNum": 1,
+            "viewPath": "modules/company/views/quote.vue",
+            "keepAlive": true,
+            "isShow": true,
+            "childMenus": [
+              {
+                "name": "权限",
+                "router": null,
+                "perms": "company:quote:page,company:quote:list,company:quote:info,company:quote:add,company:quote:update,company:quote:delete,company:quote:inquiryPage",
+                "type": 2,
+                "icon": null,
+                "orderNum": 0,
+                "viewPath": null,
+                "keepAlive": true,
+                "isShow": true,
+                "childMenus": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "人事部",
+        "router": null,
+        "perms": null,
+        "type": 0,
+        "icon": "icon-user",
+        "orderNum": 3,
+        "viewPath": null,
+        "keepAlive": true,
+        "isShow": true,
+        "childMenus": []
+      },
+      {
+        "name": "行政部",
+        "router": null,
+        "perms": null,
+        "type": 0,
+        "icon": "icon-set",
+        "orderNum": 4,
+        "viewPath": null,
+        "keepAlive": true,
+        "isShow": true,
+        "childMenus": []
+      }
+    ]
+  }
+]
+
