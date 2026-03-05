@@ -445,7 +445,7 @@ declare namespace Eps {
 		/**
 		 * 吊装需求
 		 */
-		hoistingRequirement?: string;
+		hoistingRequirement?: number;
 
 		/**
 		 * 能力需求

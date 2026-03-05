@@ -105,8 +105,13 @@ export class CompanyInquiryEntity extends BaseEntity {
   @Column({ comment: '软件要求', type: 'text', nullable: true })
   softwareRequirement: string;
 
-  @Column({ comment: '吊装需求', type: 'text', nullable: true })
-  hoistingRequirement: string;
+  @Column({
+    comment: '吊装需求',
+    dict: ['无', '吊装机', '龙门架', '现场建筑', '其他'],
+    type: 'tinyint',
+    nullable: true, 
+  })
+  hoistingRequirement: number;
 
   @Column({ comment: '能力需求', type: 'text', nullable: true })
   capabilityRequirement: string;
