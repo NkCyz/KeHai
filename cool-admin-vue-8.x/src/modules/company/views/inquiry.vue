@@ -216,6 +216,14 @@ const options = reactive({
 		{ label: t("基础"), value: 0 },
 		{ label: t("高级"), value: 1 },
 	],
+	// 吊装需求（除备件类外通用）
+	hoistingRequirement: [
+		{ label: t("无"), value: 0 },
+		{ label: t("吊装机"), value: 1 },
+		{ label: t("龙门架"), value: 2 },
+		{ label: t("现场建筑"), value: 3 },
+		{ label: t("其他"), value: 4 },
+	],
 	projectConstructType: [
 		{ label: t("工作站搬迁"), value: 0 },
 		{ label: t("工作站改造"), value: 1 },
@@ -579,6 +587,7 @@ const Upsert = useUpsert<Eps.CompanyInquiryEntity>({
 			required: true,
 			hidden: ({ scope }: any) => scope.inquiryType == 4,
 		},
+		
 		// 询价类别字段仅作为内部映射使用，不再单独展示
 		{
 			label: t("销售类别"),
@@ -654,6 +663,21 @@ const Upsert = useUpsert<Eps.CompanyInquiryEntity>({
 			component: {
 				name: "el-input",
 				props: { clearable: true, type: "textarea", rows: 3 },
+			},
+			span: 12,
+			required: true,
+			hidden: ({ scope }: any) => scope.inquiryType == 4,
+		},
+		// 吊装需求（除备件类外通用）
+		{
+			label: t("吊装需求"),
+			prop: "hoistingRequirement",
+			component: {
+				name: "el-select",
+				options: options.hoistingRequirement,
+				props: {
+					clearable: true,
+				},
 			},
 			span: 12,
 			required: true,

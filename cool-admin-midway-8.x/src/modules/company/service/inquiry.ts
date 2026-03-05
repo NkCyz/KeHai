@@ -56,6 +56,7 @@ export class CompanyInquiryService extends BaseService {
       param.projectSiteEnvDesc = null;
       param.projectSiteEnvAttachments = null;
       param.spareItems = null;
+      // 机械加工类保留吊装需求字段
     } else if (inquiryType === 1) {
       // 机械维修类：清空加工、保养、项目、备件列表相关字段
       param.processingRequirement = null;
@@ -68,6 +69,7 @@ export class CompanyInquiryService extends BaseService {
       param.projectSiteEnvDesc = null;
       param.projectSiteEnvAttachments = null;
       param.spareItems = null;
+      // 机械维修类保留吊装需求字段
     } else if (inquiryType === 2) {
       // 机械保养类：清空加工、维修、项目相关字段
       param.processingRequirement = null;
@@ -82,6 +84,7 @@ export class CompanyInquiryService extends BaseService {
       param.projectSiteEnvDesc = null;
       param.projectSiteEnvAttachments = null;
       // 保养类也使用现场环境字段(siteEnvironment)
+      // 机械保养类保留吊装需求字段
     } else if (inquiryType === 3) {
       // 项目类：清空加工、维修、保养、备件专属字段
       param.processingRequirement = null;
@@ -122,6 +125,8 @@ export class CompanyInquiryService extends BaseService {
       param.workerTypeAndCount = null;
       param.specificPersonnel = null;
       param.initialConstructionPlan = null;
+      // 备件类不需要吊装需求
+      param.hoistingRequirement = null;
     }
 
     const saved = await repo.save({

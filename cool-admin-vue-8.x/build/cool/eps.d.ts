@@ -443,6 +443,11 @@ declare namespace Eps {
 		softwareRequirement?: string;
 
 		/**
+		 * 吊装需求
+		 */
+		hoistingRequirement?: string;
+
+		/**
 		 * 能力需求
 		 */
 		capabilityRequirement?: string;

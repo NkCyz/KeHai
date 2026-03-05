@@ -242,6 +242,13 @@
 										getInquiryField(currentInquiryInfo || scope, "equipmentModelQty") || "-"
 									}}
 								</el-descriptions-item>
+								<el-descriptions-item :label="$t('吊装需求')">
+									{{
+										formatHoistingRequirement(
+											getInquiryField(currentInquiryInfo || scope, "hoistingRequirement"),
+										)
+									}}
+								</el-descriptions-item>
 								<el-descriptions-item :label="$t('交付标准')">
 									{{ getInquiryField(currentInquiryInfo || scope, "deliverStandard") || "-" }}
 								</el-descriptions-item>
@@ -876,6 +883,17 @@ function formatConstructionType(v: any) {
 		2: t("工作站恢复功能"),
 		3: t("工作站翻新"),
 		4: t("新建工作站"),
+	};
+	return typeof v === "number" ? map[v] ?? v : v ?? "-";
+}
+
+function formatHoistingRequirement(v: any) {
+	const map: Record<number, string> = {
+		0: t("无"),
+		1: t("吊装机"),
+		2: t("龙门架"),
+		3: t("现场建筑"),
+		4: t("其他"),
 	};
 	return typeof v === "number" ? map[v] ?? v : v ?? "-";
 }
