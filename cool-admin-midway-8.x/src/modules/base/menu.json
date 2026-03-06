@@ -451,7 +451,7 @@
         "orderNum": 98,
         "viewPath": null,
         "keepAlive": true,
-        "isShow": true,
+        "isShow": false,
         "childMenus": [
             {
                 "name": "文档官网",
@@ -513,7 +513,7 @@
         "orderNum": 0,
         "viewPath": "modules/demo/views/home/index.vue",
         "keepAlive": true,
-        "isShow": false,
+        "isShow": true,
         "childMenus": []
     },
     {
@@ -525,7 +525,7 @@
         "orderNum": 7,
         "viewPath": null,
         "keepAlive": true,
-        "isShow": true,
+        "isShow": false,
         "childMenus": [
             {
                 "name": "字典管理",
@@ -733,7 +733,7 @@
         "orderNum": 11,
         "viewPath": null,
         "keepAlive": true,
-        "isShow": true,
+        "isShow": false,
         "childMenus": [
             {
                 "name": "用户列表",
@@ -831,7 +831,7 @@
         "orderNum": 8,
         "viewPath": null,
         "keepAlive": true,
-        "isShow": true,
+        "isShow": false,
         "childMenus": [
             {
                 "tenantId": null,
