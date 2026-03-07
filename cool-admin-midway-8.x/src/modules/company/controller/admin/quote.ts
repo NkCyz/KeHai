@@ -22,7 +22,8 @@ import { CompanyQuoteService } from '../../service/quote';
     };
   },
   pageQueryOp: {
-    keyWordLikeFields: ['a.quoteNo', 'a.supplier'],
+    // 关键词搜索同时支持报价单号、询价单号、供应商
+    keyWordLikeFields: ['a.quoteNo', 'b.inquiryNo', 'a.supplier'],
     fieldEq: ['a.inquiryType', 'a.inquiryId'],
     select: [
       'a.*',
