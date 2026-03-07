@@ -1367,8 +1367,11 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 
 		// 备件类：校验 spareQuoteItems 至少有 1 条物料，
 		// 且每个物料下至少 1 个供应商，除备注与图片外字段均为必填
+		// NOTE: 新增报价时表单可能未携带 inquiryType，使用当前选中询价作为兜底
 		const effectiveInquiryType = Number(
-			(data as any).inquiryType ?? (data as any).inquiry?.inquiryType,
+			(data as any).inquiryType ??
+			(data as any).inquiry?.inquiryType ??
+			currentInquiryInfo.value?.inquiryType,
 		);
 
 		if (effectiveInquiryType === 4) {
