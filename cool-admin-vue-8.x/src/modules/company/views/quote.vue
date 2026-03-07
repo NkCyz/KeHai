@@ -1267,7 +1267,7 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 
 	onOpened(data) {
 		// 编辑已有报价时，优先使用后端返回的嵌套 inquiry 信息
-		if (Upsert.value?.mode === "edit") {
+		if (Upsert.value?.mode === "update") {
 			const q: any = data || {};
 			const inquiry = q.inquiry || {};
 
@@ -1415,7 +1415,7 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 
 		// 新增 / 编辑分别调用对应接口，保证更新时间等由后端正确维护
 		const mode = Upsert.value?.mode;
-		const req = mode === "edit" ? service.company.quote.update : service.company.quote.add;
+		const req = mode === "update" ? service.company.quote.update : service.company.quote.add;
 
 		req.call(service.company.quote, data)
 			.then(() => {
@@ -1428,6 +1428,12 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 				ElMessage.error(err.message);
 				done();
 			});
+	},
+
+	onClose(action, done) {
+		// 关闭弹窗时清空当前询价缓存，避免下次编辑时沿用旧数据
+		currentInquiryInfo.value = null;
+		done();
 	},
 });
 
