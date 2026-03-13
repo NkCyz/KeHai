@@ -351,6 +351,358 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
+	interface CompanyCustomerEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 客户编号（系统自动生成）
+		 */
+		customerNo?: string;
+
+		/**
+		 * 客户名称
+		 */
+		customerName?: string;
+
+		/**
+		 * 客户性质（终客户/集成商）
+		 */
+		customerNature?: number;
+
+		/**
+		 * 统一社会信用代码
+		 */
+		socialCreditCode?: string;
+
+		/**
+		 * 客户级别（核心客户/一般客户/潜在客户）
+		 */
+		level?: number;
+
+		/**
+		 * 管理状态（系统关联生成：背调中/初次接触/需求确认/合作中/合作结束/目前无需求/放弃）
+		 */
+		manageStatus?: number;
+
+		/**
+		 * 拜访次数（系统关联生成，=拜访记录条数）
+		 */
+		visitCount?: number;
+
+		/**
+		 * 成交状态（关联合同数量，系统关联生成：未成交/已成交/多次成交）
+		 */
+		dealStatus?: number;
+
+		/**
+		 * 合同数量（系统关联生成）
+		 */
+		contractCount?: number;
+
+		/**
+		 * 赢单状态（可改成最新成交状态，系统关联生成：未赢单/已赢单/多次赢单）
+		 */
+		winStatus?: number;
+
+		/**
+		 * 最近成交时间（系统关联生成）
+		 */
+		latestDealTime?: Date;
+
+		/**
+		 * 距上次合作时间（天，系统关联生成，关联合作起止时间）
+		 */
+		daysSinceLastCooperation?: number;
+
+		/**
+		 * 合同订单总额（系统关联生成）
+		 */
+		contractOrderTotalAmount?: number;
+
+		/**
+		 * 应收款余额（系统关联生成）
+		 */
+		receivableBalance?: number;
+
+		/**
+		 * 退款总额（系统关联生成）
+		 */
+		refundTotalAmount?: number;
+
+		/**
+		 * 开票总额（系统关联生成）
+		 */
+		invoiceTotalAmount?: number;
+
+		/**
+		 * 询价单数量（系统关联生成）
+		 */
+		inquiryCount?: number;
+
+		/**
+		 * 报价单数量（系统关联生成）
+		 */
+		quoteCount?: number;
+
+		/**
+		 * 转换率（合同数/报价单数，系统关联生成）
+		 */
+		contractConvertRate?: number;
+
+		/**
+		 * 来源（公司资源/自由开拓/客户介绍/电话咨询）
+		 */
+		backgroundSource?: number;
+
+		/**
+		 * 公司背景（简短介绍）
+		 */
+		backgroundCompanyProfile?: string;
+
+		/**
+		 * 成立时间
+		 */
+		backgroundEstablishDate?: Date;
+
+		/**
+		 * 企业注册资金
+		 */
+		backgroundRegisteredCapital?: number;
+
+		/**
+		 * 企业性质
+		 */
+		backgroundEnterpriseType?: string;
+
+		/**
+		 * 是否上市（0-否 1-是）
+		 */
+		backgroundIsListed?: number;
+
+		/**
+		 * 当年营业额
+		 */
+		backgroundTurnoverCurrent?: number;
+
+		/**
+		 * 上一年营业额
+		 */
+		backgroundTurnoverLast?: number;
+
+		/**
+		 * 上上年营业额
+		 */
+		backgroundTurnoverPrev?: number;
+
+		/**
+		 * 行业（必填，文本）
+		 */
+		backgroundIndustry?: string;
+
+		/**
+		 * 企业经营项目
+		 */
+		backgroundBusinessItems?: string;
+
+		/**
+		 * 上级客户
+		 */
+		backgroundSuperiorCustomer?: string;
+
+		/**
+		 * 下游客户
+		 */
+		backgroundDownstreamCustomer?: string;
+
+		/**
+		 * 机器人工艺
+		 */
+		backgroundRobotProcess?: string;
+
+		/**
+		 * 公司网址
+		 */
+		backgroundWebsite?: string;
+
+		/**
+		 * 电话
+		 */
+		backgroundPhone?: string;
+
+		/**
+		 * 电子邮件
+		 */
+		backgroundEmail?: string;
+
+		/**
+		 * 备注
+		 */
+		backgroundRemark?: string;
+
+		/**
+		 * 国家
+		 */
+		backgroundCountry?: string;
+
+		/**
+		 * 省
+		 */
+		backgroundProvince?: string;
+
+		/**
+		 * 市
+		 */
+		backgroundCity?: string;
+
+		/**
+		 * 区
+		 */
+		backgroundDistrict?: string;
+
+		/**
+		 * 详细地址
+		 */
+		backgroundAddressDetail?: string;
+
+		/**
+		 * 负责人（文本，如姓名）
+		 */
+		backgroundOwnerUserId?: string;
+
+		/**
+		 * 负责人所在部门
+		 */
+		backgroundOwnerDept?: string;
+
+		/**
+		 * 协作人列表（文本数组，如姓名列表）
+		 */
+		backgroundCollaboratorUserIds?: any;
+
+		/**
+		 * 最后修改人（文本，如姓名）
+		 */
+		backgroundLastModifyUserId?: string;
+
+		/**
+		 * 创建人（文本，如姓名）
+		 */
+		createUserId?: string;
+
+		/**
+		 * 上一次负责人（文本，如姓名）
+		 */
+		backgroundPreviousOwnerUserId?: string;
+
+		/**
+		 * 负责人变更时间
+		 */
+		backgroundOwnerChangeTime?: Date;
+
+		/**
+		 * 最近跟进类型（电话拜访/微信拜访/钉钉拜访/网络平台/上门拜访）
+		 */
+		lastFollowType?: number;
+
+		/**
+		 * 最近跟进时间
+		 */
+		lastFollowDate?: Date;
+
+		/**
+		 * 最近跟进人（文本，默认填写记录人姓名）
+		 */
+		lastFollowUserId?: string;
+
+		/**
+		 * 跟进状态（无需求跟进/有需求跟进）
+		 */
+		followStatus?: number;
+
+		/**
+		 * 距上次跟进（天，系统自动生成，当前时间-最近跟进时间）
+		 */
+		daysSinceLastFollow?: number;
+
+		/**
+		 * 最近跟进内容
+		 */
+		lastFollowContent?: string;
+
+		/**
+		 * 工厂情况（总厂/分厂）
+		 */
+		factorySituation?: number;
+
+		/**
+		 * 设备情况（品牌、数量、型号）
+		 */
+		deviceSituation?: string;
+
+		/**
+		 * 机器人总数量
+		 */
+		robotTotalCount?: number;
+
+		/**
+		 * 车间个数
+		 */
+		workshopCount?: number;
+
+		/**
+		 * 应用车间
+		 */
+		applicationWorkshops?: string;
+
+		/**
+		 * 是否有固定维保供应商
+		 */
+		hasFixedMaintenanceSupplier?: number;
+
+		/**
+		 * 合作供应商
+		 */
+		cooperationSuppliers?: string;
+
+		/**
+		 * 是否与我司有过合作（否/是）
+		 */
+		hasCooperatedWithUs?: number;
+
+		/**
+		 * 合作起始时间
+		 */
+		cooperationStartDate?: Date;
+
+		/**
+		 * 合作结束时间
+		 */
+		cooperationEndDate?: Date;
+
+		/**
+		 * 合作意向（愿意合作/积极/一般/弱/无）
+		 */
+		cooperationIntention?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
 	interface CompanyInquiryEntity {
 		/**
 		 * ID
@@ -1407,6 +1759,11 @@ declare namespace Eps {
 		list: BaseSysUserEntity[];
 	}
 
+	interface CompanyCustomerPageResponse {
+		pagination: PagePagination;
+		list: CompanyCustomerEntity[];
+	}
+
 	interface CompanyInquiryPageResponse {
 		pagination: PagePagination;
 		list: CompanyInquiryEntity[];
@@ -1944,6 +2301,64 @@ declare namespace Eps {
 			delete: boolean;
 			update: boolean;
 			move: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface CompanyCustomer {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<CompanyCustomerEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<CompanyCustomerEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<CompanyCustomerPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
 			info: boolean;
 			list: boolean;
 			page: boolean;
@@ -2726,7 +3141,7 @@ declare namespace Eps {
 				user: BaseSysUser;
 			};
 		};
-		company: { inquiry: CompanyInquiry; quote: CompanyQuote };
+		company: { customer: CompanyCustomer; inquiry: CompanyInquiry; quote: CompanyQuote };
 		demo: { goods: DemoGoods; tenant: DemoTenant };
 		dict: { info: DictInfo; type: DictType };
 		plugin: { info: PluginInfo };
