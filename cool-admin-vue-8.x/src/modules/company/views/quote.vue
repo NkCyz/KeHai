@@ -522,8 +522,10 @@
 										<el-table-column :label="$t('规格型号')" prop="spec" min-width="120" />
 										<el-table-column :label="$t('数量')" prop="quantity" min-width="100" />
 										<el-table-column :label="$t('品牌')" prop="brand" min-width="120" />
-									</el-table>
-								</el-descriptions-item>
+										<el-table-column :label="$t('未税单价估计')" prop="unitPriceExclTax" min-width="120" />
+										<el-table-column :label="$t('含税单价估计')" prop="unitPriceInclTax" min-width="120" />
+										</el-table>
+									</el-descriptions-item>
 							</el-descriptions>
 						</div>
 					</template>
@@ -911,7 +913,37 @@ function normalizeSpareItems(info: any): Array<any> {
 		}
 	}
 	if (!Array.isArray(list)) return [];
-	return list.map((e: any) => {
+	const spareItems = list.map((e: any) => ({
+		...e,
+		unitPriceExclTax: "暂无估计",
+		unitPriceInclTax: "暂无估计",
+	}));
+	spareItems.forEach(async (item: any, index: number) => {
+		try {
+			// 发送网络请求（参考 post.py）
+		const payload = {
+			brand: item.brand || "无",
+			material_name: item.name || "无",
+		};
+		const response = await fetch('/agent/dify/material', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		});
+		const materialResponseStatu = await response.json();
+		if (response.ok) {
+			spareItems[index].unitPriceInclTax = materialResponseStatu.data.outputs.pricewithtax;
+			spareItems[index].unitPriceExclTax = materialResponseStatu.data.outputs.pricewithouttax;
+		}
+	} catch (error) {
+		console.error('物料查询请求失败:', error);
+	}
+
+
+	})
+	return spareItems.map((e: any) => {
 		return {
 			name: e?.name ?? "",
 			categoryBig: e?.categoryBig ?? e?.bigCategory ?? e?.category ?? "",
@@ -919,9 +951,12 @@ function normalizeSpareItems(info: any): Array<any> {
 			spec: e?.spec ?? "",
 			quantity: e?.quantity ?? "",
 			brand: e?.brand ?? e?.remark ?? "",
+			unitPriceExclTax: e?.unitPriceExclTax ?? "",
+			unitPriceInclTax: e?.unitPriceInclTax ?? "",
 		};
 	});
 }
+
 
 function normalizeFiles(val: any): string[] {
 	if (!val) return [];
