@@ -45,6 +45,31 @@
                 "childMenus": []
               }
             ]
+          },
+          {
+            "name": "客户管理",
+            "router": "/company/customer",
+            "perms": null,
+            "type": 1,
+            "icon": "icon-user",
+            "orderNum": 2,
+            "viewPath": "modules/company/views/customer.vue",
+            "keepAlive": true,
+            "isShow": true,
+            "childMenus": [
+              {
+                "name": "权限",
+                "router": null,
+                "perms": "company:customer:page,company:customer:list,company:customer:info,company:customer:add,company:customer:update,company:customer:delete",
+                "type": 2,
+                "icon": null,
+                "orderNum": 0,
+                "viewPath": null,
+                "keepAlive": true,
+                "isShow": true,
+                "childMenus": []
+              }
+            ]
           }
         ]
       },
