@@ -1,11 +1,12 @@
 <template>
+	<quote-agent />
 	<div class="company-quote">
 		<!-- 待报价询价列表 -->
 		<div class="company-quote__left">
 			<div class="company-quote__left-header">
-				<div class="title">{{ $t("待报价询价") }}</div>
+				<div class="title">{{ $t('待报价询价') }}</div>
 				<el-button size="small" @click="refreshInquiryPage({ page: 1 })">
-					{{ $t("刷新") }}
+					{{ $t('刷新') }}
 				</el-button>
 			</div>
 
@@ -39,43 +40,53 @@
 					v-for="item in inquiryList"
 					:key="item.inquiryNo || item.id || item.inquiryId"
 					class="inquiry-item"
-					:class="{ 'is-active': (inquirySelectedKey === (item.inquiryNo || item.id || item.inquiryId)) }"
+					:class="{
+						'is-active':
+							inquirySelectedKey === (item.inquiryNo || item.id || item.inquiryId)
+					}"
 					@click="openAddQuote(item)"
 				>
 					<div class="inquiry-item__top">
-						<div class="no">{{ item.inquiryNo || "-" }}</div>
+						<div class="no">{{ item.inquiryNo || '-' }}</div>
 						<el-tag
 							disable-transitions
 							size="small"
 							effect="plain"
 							:type="
-								options.inquiryType.find((e) => e.value === item.inquiryType)?.type ||
+								options.inquiryType.find(e => e.value === item.inquiryType)?.type ||
 								'info'
 							"
 						>
 							{{
-								(options.inquiryType.find((e) => e.value === item.inquiryType)
-									?.label as string) || "-"
+								(options.inquiryType.find(e => e.value === item.inquiryType)
+									?.label as string) || '-'
 							}}
 						</el-tag>
 					</div>
 
 					<div class="inquiry-item__row">
-						<span class="label">{{ $t("客户") }}</span>
-						<span class="value">{{ item.customer || "-" }}</span>
+						<span class="label">{{ $t('客户') }}</span>
+						<span class="value">{{ item.customer || '-' }}</span>
 					</div>
 					<div class="inquiry-item__row">
-						<span class="label">{{ $t("项目") }}</span>
-						<span class="value">{{ item.projectName || "-" }}</span>
+						<span class="label">{{ $t('项目') }}</span>
+						<span class="value">{{ item.projectName || '-' }}</span>
 					</div>
 					<div class="inquiry-item__row">
-						<span class="label">{{ $t("工期") }}</span>
-						<span class="value">{{ formatRange(item.projectStartDate, item.projectEndDate) }}</span>
+						<span class="label">{{ $t('工期') }}</span>
+						<span class="value">{{
+							formatRange(item.projectStartDate, item.projectEndDate)
+						}}</span>
 					</div>
 
 					<div class="inquiry-item__action">
-						<el-button size="small" type="success" plain @click.stop="openAddQuote(item)">
-							{{ $t("新增报价") }}
+						<el-button
+							size="small"
+							type="success"
+							plain
+							@click.stop="openAddQuote(item)"
+						>
+							{{ $t('新增报价') }}
 						</el-button>
 					</div>
 				</div>
@@ -110,7 +121,9 @@
 						<template #column-costLaborItems="{ scope }">
 							<div class="labor-col">
 								<div
-									v-for="(item, index) in normalizeLaborItems(scope.row.costLaborItems)"
+									v-for="(item, index) in normalizeLaborItems(
+										scope.row.costLaborItems
+									)"
 									:key="index"
 								>
 									<span>{{ item.name }}</span>
@@ -125,13 +138,15 @@
 						<template #column-spareQuoteItems="{ scope }">
 							<div v-if="scope.row.inquiryType === 4" class="spare-quote-col">
 								<div
-									v-for="(m, mIndex) in normalizespareQuoteItems(scope.row.spareQuoteItems)"
+									v-for="(m, mIndex) in normalizespareQuoteItems(
+										scope.row.spareQuoteItems
+									)"
 									:key="mIndex"
 									class="mb-1"
 								>
 									<div class="font-bold">
-										{{ $t("物料") }}{{ mIndex + 1 }}：
-										{{ m.materialName || "-" }}
+										{{ $t('物料') }}{{ mIndex + 1 }}：
+										{{ m.materialName || '-' }}
 										<span v-if="m.spec">（{{ m.spec }}）</span>
 									</div>
 									<div
@@ -140,27 +155,33 @@
 										class="ml-2 text-sm"
 									>
 										<div>
-											<span class="label">{{ $t("供应商") }}：</span>
-											<span class="value">{{ s.supplier || "-" }}</span>
+											<span class="label">{{ $t('供应商') }}：</span>
+											<span class="value">{{ s.supplier || '-' }}</span>
 										</div>
 										<div>
-											<span class="label">{{ $t("未税单价") }}：</span>
-											<span class="value">{{ s.unitPriceExclTax ?? "-" }}</span>
-											<span class="label ml-2">{{ $t("税率(%)") }}：</span>
-											<span class="value">{{ s.taxRate ?? "-" }}</span>
-											<span class="label ml-2">{{ $t("含税单价") }}：</span>
-											<span class="value">{{ s.unitPriceInclTax ?? "-" }}</span>
-											<span class="label ml-2">{{ $t("含税总价") }}：</span>
-											<span class="value">{{ s.totalPriceInclTax ?? "-" }}</span>
+											<span class="label">{{ $t('未税单价') }}：</span>
+											<span class="value">{{
+												s.unitPriceExclTax ?? '-'
+											}}</span>
+											<span class="label ml-2">{{ $t('税率(%)') }}：</span>
+											<span class="value">{{ s.taxRate ?? '-' }}</span>
+											<span class="label ml-2">{{ $t('含税单价') }}：</span>
+											<span class="value">{{
+												s.unitPriceInclTax ?? '-'
+											}}</span>
+											<span class="label ml-2">{{ $t('含税总价') }}：</span>
+											<span class="value">{{
+												s.totalPriceInclTax ?? '-'
+											}}</span>
 										</div>
 										<div>
-											<span class="label">{{ $t("运费") }}：</span>
-											<span class="value">{{ s.freight ?? "-" }}</span>
-											<span class="label ml-2">{{ $t("货期") }}：</span>
-											<span class="value">{{ s.delivery || "-" }}</span>
+											<span class="label">{{ $t('运费') }}：</span>
+											<span class="value">{{ s.freight ?? '-' }}</span>
+											<span class="label ml-2">{{ $t('货期') }}：</span>
+											<span class="value">{{ s.delivery || '-' }}</span>
 										</div>
 										<div v-if="s.remark">
-											<span class="label">{{ $t("备注") }}：</span>
+											<span class="label">{{ $t('备注') }}：</span>
 											<span class="value">{{ s.remark }}</span>
 										</div>
 									</div>
@@ -183,20 +204,33 @@
 							<!-- 基本信息（备件类不展示项目地点 / 地址 / 工期） -->
 							<el-descriptions border :column="2" class="mb-3">
 								<el-descriptions-item :label="$t('询价单号')">
-									{{ getInquiryField(currentInquiryInfo || scope, "inquiryNo") || "-" }}
+									{{
+										getInquiryField(currentInquiryInfo || scope, 'inquiryNo') ||
+										'-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('类型')">
 									{{
 										(options.inquiryType.find(
-											(e) => e.value === (currentInquiryInfo || scope).inquiryType,
-										)?.label as string) || "-"
+											e =>
+												e.value ===
+												(currentInquiryInfo || scope).inquiryType
+										)?.label as string) || '-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('客户')">
-									{{ getInquiryField(currentInquiryInfo || scope, "customer") || "-" }}
+									{{
+										getInquiryField(currentInquiryInfo || scope, 'customer') ||
+										'-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('项目名称')">
-									{{ getInquiryField(currentInquiryInfo || scope, "projectName") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'projectName'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item
 									v-if="(currentInquiryInfo || scope).inquiryType !== 4"
@@ -204,24 +238,36 @@
 								>
 									{{
 										formatLocation(
-											getInquiryField(currentInquiryInfo || scope, "projectLocation"),
+											getInquiryField(
+												currentInquiryInfo || scope,
+												'projectLocation'
+											)
 										)
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item
-									v-if="((currentInquiryInfo || scope).inquiryType) !== 4"
+									v-if="(currentInquiryInfo || scope).inquiryType !== 4"
 									:label="$t('具体地址')"
 								>
-									{{ getInquiryField(currentInquiryInfo || scope, "address") || "-" }}
+									{{
+										getInquiryField(currentInquiryInfo || scope, 'address') ||
+										'-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item
-									v-if="((currentInquiryInfo || scope).inquiryType) !== 4"
+									v-if="(currentInquiryInfo || scope).inquiryType !== 4"
 									:label="$t('工期')"
 								>
 									{{
 										formatRange(
-											getInquiryField(currentInquiryInfo || scope, "projectStartDate"),
-											getInquiryField(currentInquiryInfo || scope, "projectEndDate"),
+											getInquiryField(
+												currentInquiryInfo || scope,
+												'projectStartDate'
+											),
+											getInquiryField(
+												currentInquiryInfo || scope,
+												'projectEndDate'
+											)
 										)
 									}}
 								</el-descriptions-item>
@@ -235,59 +281,106 @@
 								class="mb-3"
 							>
 								<el-descriptions-item :label="$t('设备品牌')">
-									{{ getInquiryField(currentInquiryInfo || scope, "equipmentBrand") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'equipmentBrand'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('设备型号及数量')">
 									{{
-										getInquiryField(currentInquiryInfo || scope, "equipmentModelQty") || "-"
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'equipmentModelQty'
+										) || '-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('吊装需求')">
 									{{
 										formatHoistingRequirement(
-											getInquiryField(currentInquiryInfo || scope, "hoistingRequirement"),
+											getInquiryField(
+												currentInquiryInfo || scope,
+												'hoistingRequirement'
+											)
 										)
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('交付标准')">
-									{{ getInquiryField(currentInquiryInfo || scope, "deliverStandard") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'deliverStandard'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('售后要求')">
 									{{
-										getInquiryField(currentInquiryInfo || scope, "afterSalesRequirement") ||
-										"-"
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'afterSalesRequirement'
+										) || '-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('备件明细')">
-									{{ getInquiryField(currentInquiryInfo || scope, "sparePartsDetail") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'sparePartsDetail'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('工具要求')">
-									{{ getInquiryField(currentInquiryInfo || scope, "toolRequirement") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'toolRequirement'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('软件要求')">
-									{{ getInquiryField(currentInquiryInfo || scope, "softwareRequirement") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'softwareRequirement'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('能力需求')">
 									{{
-										getInquiryField(currentInquiryInfo || scope, "capabilityRequirement") || "-"
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'capabilityRequirement'
+										) || '-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('技术工种及人数')">
 									{{
-										getInquiryField(currentInquiryInfo || scope, "workerTypeAndCount") || "-"
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'workerTypeAndCount'
+										) || '-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('具体人员（内部人员/委外）')">
 									{{
-										getInquiryField(currentInquiryInfo || scope, "specificPersonnel") ||
-										getInquiryField(currentInquiryInfo || scope, "personnelDetail") ||
-										"-"
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'specificPersonnel'
+										) ||
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'personnelDetail'
+										) ||
+										'-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('初步施工方案')" :span="2">
 									{{
-										getInquiryField(currentInquiryInfo || scope, "initialConstructionPlan") ||
-										"-"
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'initialConstructionPlan'
+										) || '-'
 									}}
 								</el-descriptions-item>
 							</el-descriptions>
@@ -302,20 +395,29 @@
 							>
 								<el-descriptions-item :label="$t('加工要求')" :span="2">
 									{{
-										getInquiryField(currentInquiryInfo || scope, "processingRequirement") || "-"
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'processingRequirement'
+										) || '-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('图纸附件')" :span="2">
 									<div
 										v-if="
 											normalizeFiles(
-												getInquiryField(currentInquiryInfo || scope, 'drawingAttachments'),
+												getInquiryField(
+													currentInquiryInfo || scope,
+													'drawingAttachments'
+												)
 											).length
 										"
 									>
 										<el-link
 											v-for="(url, index) in normalizeFiles(
-												getInquiryField(currentInquiryInfo || scope, 'drawingAttachments'),
+												getInquiryField(
+													currentInquiryInfo || scope,
+													'drawingAttachments'
+												)
 											)"
 											:key="index"
 											:href="url"
@@ -338,32 +440,58 @@
 								class="mb-3"
 							>
 								<el-descriptions-item :label="$t('维修类型')">
-									{{ getInquiryField(currentInquiryInfo || scope, "repairType") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'repairType'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('现场环境')">
-									{{ formatSiteEnv(getInquiryField(currentInquiryInfo || scope, "siteEnvironment")) }}
+									{{
+										formatSiteEnv(
+											getInquiryField(
+												currentInquiryInfo || scope,
+												'siteEnvironment'
+											)
+										)
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('明确调试归属')">
 									{{
 										formatDebugOwnership(
-											getInquiryField(currentInquiryInfo || scope, "debugOwnership"),
+											getInquiryField(
+												currentInquiryInfo || scope,
+												'debugOwnership'
+											)
 										)
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('故障描述')" :span="2">
-									{{ getInquiryField(currentInquiryInfo || scope, "faultDescription") || "-" }}
+									{{
+										getInquiryField(
+											currentInquiryInfo || scope,
+											'faultDescription'
+										) || '-'
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('现场附件')" :span="2">
 									<div
 										v-if="
 											normalizeFiles(
-												getInquiryField(currentInquiryInfo || scope, 'siteAttachments'),
+												getInquiryField(
+													currentInquiryInfo || scope,
+													'siteAttachments'
+												)
 											).length
 										"
 									>
 										<el-link
 											v-for="(url, index) in normalizeFiles(
-												getInquiryField(currentInquiryInfo || scope, 'siteAttachments'),
+												getInquiryField(
+													currentInquiryInfo || scope,
+													'siteAttachments'
+												)
 											)"
 											:key="index"
 											:href="url"
@@ -386,24 +514,31 @@
 								class="mb-3"
 							>
 								<el-descriptions-item :label="$t('现场环境')">
-									{{ formatSiteEnv(getInquiryField(currentInquiryInfo || scope, "siteEnvironment")) }}
+									{{
+										formatSiteEnv(
+											getInquiryField(
+												currentInquiryInfo || scope,
+												'siteEnvironment'
+											)
+										)
+									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('保养类型')">
 									{{
 										formatMaintenanceType(
 											getInquiryField(currentInquiryInfo || scope, [
-												"maintenanceType",
-												"maintenanceContent",
-											]),
+												'maintenanceType',
+												'maintenanceContent'
+											])
 										)
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('保养范围')" :span="2">
 									{{
 										getInquiryField(currentInquiryInfo || scope, [
-											"maintenanceScope",
-											"maintenanceContent",
-										]) || "-"
+											'maintenanceScope',
+											'maintenanceContent'
+										]) || '-'
 									}}
 								</el-descriptions-item>
 							</el-descriptions>
@@ -419,37 +554,39 @@
 									{{
 										formatConstructionType(
 											getInquiryField(currentInquiryInfo || scope, [
-												"projectConstructType",
-												"constructionType",
-											]),
+												'projectConstructType',
+												'constructionType'
+											])
 										)
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('施工内容')" :span="2">
 									{{
 										getInquiryField(currentInquiryInfo || scope, [
-											"projectConstructContent",
-											"constructionContent",
-										]) || "-"
+											'projectConstructContent',
+											'constructionContent'
+										]) || '-'
 									}}
 								</el-descriptions-item>
 								<el-descriptions-item :label="$t('现场环境说明')" :span="2">
 									{{
 										getInquiryField(currentInquiryInfo || scope, [
-											"projectSiteEnvDesc",
-											"projectSiteEnvironment",
-										]) ||
-										"-"
+											'projectSiteEnvDesc',
+											'projectSiteEnvironment'
+										]) || '-'
 									}}
 								</el-descriptions-item>
-								<el-descriptions-item :label="$t('施工内容附件（客户技术协议）')" :span="2">
+								<el-descriptions-item
+									:label="$t('施工内容附件（客户技术协议）')"
+									:span="2"
+								>
 									<div
 										v-if="
 											normalizeFiles(
 												getInquiryField(currentInquiryInfo || scope, [
 													'projectConstructAttachments',
-													'constructionContentAttachments',
-												]),
+													'constructionContentAttachments'
+												])
 											).length
 										"
 									>
@@ -457,8 +594,8 @@
 											v-for="(url, index) in normalizeFiles(
 												getInquiryField(currentInquiryInfo || scope, [
 													'projectConstructAttachments',
-													'constructionContentAttachments',
-												]),
+													'constructionContentAttachments'
+												])
 											)"
 											:key="index"
 											:href="url"
@@ -471,14 +608,17 @@
 									</div>
 									<span v-else>-</span>
 								</el-descriptions-item>
-								<el-descriptions-item :label="$t('现场环境附件（图片/视频）')" :span="2">
+								<el-descriptions-item
+									:label="$t('现场环境附件（图片/视频）')"
+									:span="2"
+								>
 									<div
 										v-if="
 											normalizeFiles(
 												getInquiryField(currentInquiryInfo || scope, [
 													'projectSiteEnvAttachments',
-													'projectSiteAttachments',
-												]),
+													'projectSiteAttachments'
+												])
 											).length
 										"
 									>
@@ -486,8 +626,8 @@
 											v-for="(url, index) in normalizeFiles(
 												getInquiryField(currentInquiryInfo || scope, [
 													'projectSiteEnvAttachments',
-													'projectSiteAttachments',
-												]),
+													'projectSiteAttachments'
+												])
 											)"
 											:key="index"
 											:href="url"
@@ -516,16 +656,38 @@
 										border
 										style="width: 100%"
 									>
-										<el-table-column :label="$t('物料名称')" prop="name" min-width="140" />
-										<el-table-column :label="$t('物料大类')" prop="categoryBig" min-width="120" />
-										<el-table-column :label="$t('物料小类')" prop="categorySmall" min-width="140" />
-										<el-table-column :label="$t('规格型号')" prop="spec" min-width="120" />
-										<el-table-column :label="$t('数量')" prop="quantity" min-width="100" />
-										<el-table-column :label="$t('品牌')" prop="brand" min-width="120" />
-										<el-table-column :label="$t('未税单价估计')" prop="unitPriceExclTax" min-width="120" />
-										<el-table-column :label="$t('含税单价估计')" prop="unitPriceInclTax" min-width="120" />
-										</el-table>
-									</el-descriptions-item>
+										<el-table-column
+											:label="$t('物料名称')"
+											prop="name"
+											min-width="140"
+										/>
+										<el-table-column
+											:label="$t('物料大类')"
+											prop="categoryBig"
+											min-width="120"
+										/>
+										<el-table-column
+											:label="$t('物料小类')"
+											prop="categorySmall"
+											min-width="140"
+										/>
+										<el-table-column
+											:label="$t('规格型号')"
+											prop="spec"
+											min-width="120"
+										/>
+										<el-table-column
+											:label="$t('数量')"
+											prop="quantity"
+											min-width="100"
+										/>
+										<el-table-column
+											:label="$t('品牌')"
+											prop="brand"
+											min-width="120"
+										/>
+									</el-table>
+								</el-descriptions-item>
 							</el-descriptions>
 						</div>
 					</template>
@@ -539,7 +701,7 @@
 								@click="addSpareMaterial(scope)"
 								class="mb-2"
 							>
-								{{ $t("新增物料") }}
+								{{ $t('新增物料') }}
 							</el-button>
 
 							<div
@@ -550,14 +712,14 @@
 								<el-card shadow="never" class="mb-2">
 									<template #header>
 										<div class="spare-quote__material-header">
-											<span>{{ $t("物料") }} {{ mIndex + 1 }}</span>
+											<span>{{ $t('物料') }} {{ mIndex + 1 }}</span>
 											<el-button
 												type="danger"
 												text
 												size="small"
 												@click="removeSpareMaterial(scope, mIndex)"
 											>
-												{{ $t("删除物料") }}
+												{{ $t('删除物料') }}
 											</el-button>
 										</div>
 									</template>
@@ -599,7 +761,11 @@
 										</el-table-column>
 										<el-table-column :label="$t('税率 (%)')" min-width="100">
 											<template #default="{ row }">
-												<el-input-number v-model="row.taxRate" :min="0" :controls="false" />
+												<el-input-number
+													v-model="row.taxRate"
+													:min="0"
+													:controls="false"
+												/>
 											</template>
 										</el-table-column>
 										<el-table-column :label="$t('含税单价')" min-width="120">
@@ -622,7 +788,11 @@
 										</el-table-column>
 										<el-table-column :label="$t('运费')" min-width="100">
 											<template #default="{ row }">
-												<el-input-number v-model="row.freight" :min="0" :controls="false" />
+												<el-input-number
+													v-model="row.freight"
+													:min="0"
+													:controls="false"
+												/>
 											</template>
 										</el-table-column>
 										<el-table-column :label="$t('货期')" min-width="120">
@@ -646,15 +816,21 @@
 												<el-input v-model="row.remark" clearable />
 											</template>
 										</el-table-column>
-										<el-table-column :label="$t('操作')" width="100" align="center">
+										<el-table-column
+											:label="$t('操作')"
+											width="100"
+											align="center"
+										>
 											<template #default="{ $index }">
 												<el-button
 													type="danger"
 													text
 													size="small"
-													@click="removeSpareSupplier(scope, mIndex, $index)"
+													@click="
+														removeSpareSupplier(scope, mIndex, $index)
+													"
 												>
-													{{ $t("删除") }}
+													{{ $t('删除') }}
 												</el-button>
 											</template>
 										</el-table-column>
@@ -666,7 +842,7 @@
 											size="small"
 											@click="addSpareSupplier(scope, mIndex)"
 										>
-											{{ $t("新增供应商报价") }}
+											{{ $t('新增供应商报价') }}
 										</el-button>
 									</div>
 								</el-card>
@@ -677,7 +853,9 @@
 					<template #slot-laborItems="{ scope }">
 						<div class="labor-items">
 							<el-table
-								:data="Array.isArray(scope.costLaborItems) ? scope.costLaborItems : []"
+								:data="
+									Array.isArray(scope.costLaborItems) ? scope.costLaborItems : []
+								"
 								size="small"
 								border
 							>
@@ -688,7 +866,11 @@
 								</el-table-column>
 								<el-table-column :label="$t('金额')" width="160">
 									<template #default="{ row }">
-										<el-input-number v-model="row.cost" :min="0" :controls="false" />
+										<el-input-number
+											v-model="row.cost"
+											:min="0"
+											:controls="false"
+										/>
 									</template>
 								</el-table-column>
 								<el-table-column :label="$t('操作')" width="100" align="center">
@@ -703,7 +885,7 @@
 												}
 											"
 										>
-											{{ $t("删除") }}
+											{{ $t('删除') }}
 										</el-button>
 									</template>
 								</el-table-column>
@@ -723,7 +905,7 @@
 										}
 									"
 								>
-									{{ $t("添加一条") }}
+									{{ $t('添加一条') }}
 								</el-button>
 							</div>
 						</div>
@@ -736,27 +918,35 @@
 
 <script lang="ts" setup>
 defineOptions({
-	name: "company-quote",
+	name: 'company-quote'
 });
 
-import { useCrud, useTable, useUpsert } from "@cool-vue/crud";
-import { useCool } from "/@/cool";
-import { useI18n } from "vue-i18n";
-import { reactive, ref, onMounted } from "vue";
-import { ElMessage } from "element-plus";
+import { useCrud, useTable, useUpsert } from '@cool-vue/crud';
+import { useCool } from '/@/cool';
+import { useI18n } from 'vue-i18n';
+import { reactive, ref, onMounted } from 'vue';
+import { ElMessage } from 'element-plus';
+import type { TagProps } from 'element-plus';
+import QuoteAgent from './quote_agent.vue';
 
 const { service } = useCool();
 const { t } = useI18n();
 
+type InquiryTypeOption = {
+	label: string;
+	value: number;
+	type: TagProps['type'];
+};
+
 // 选项（与询价页面保持一致）
-const options = reactive({
+const options = reactive<{ inquiryType: InquiryTypeOption[] }>({
 	inquiryType: [
-		{ label: t("项目类"), value: 3, type: "info" },
-		{ label: t("机械保养类"), value: 2, type: "warning" },
-		{ label: t("机械维修类"), value: 1, type: "success" },
-		{ label: t("机械加工类"), value: 0, type: "danger" },
-		{ label: t("备件类"), value: 4, type: "primary" },
-	],
+		{ label: t('项目类'), value: 3, type: 'info' },
+		{ label: t('机械保养类'), value: 2, type: 'warning' },
+		{ label: t('机械维修类'), value: 1, type: 'success' },
+		{ label: t('机械加工类'), value: 0, type: 'danger' },
+		{ label: t('备件类'), value: 4, type: 'primary' }
+	]
 });
 
 // 待报价询价列表（供应链侧）
@@ -771,9 +961,9 @@ const currentInquiryInfo = ref<any | null>(null);
 const inquiryParams = reactive({
 	page: 1,
 	size: 10,
-	keyWord: "",
+	keyWord: '',
 	inquiryType: undefined as number | undefined,
-	quoteStatus: 0,
+	quoteStatus: 0
 });
 
 async function refreshInquiryPage(params?: Partial<typeof inquiryParams>) {
@@ -786,7 +976,7 @@ async function refreshInquiryPage(params?: Partial<typeof inquiryParams>) {
 			...inquiryParams,
 			keyWord: inquiryParams.keyWord || undefined,
 			inquiryType: inquiryParams.inquiryType ?? undefined,
-			quoteStatus: 0,
+			quoteStatus: 0
 		})
 		.then((res: any) => {
 			// 后端返回的是 a_xxx 前缀字段，这里统一映射成前端使用的字段名
@@ -801,7 +991,7 @@ async function refreshInquiryPage(params?: Partial<typeof inquiryParams>) {
 					projectStartDate: e.a_projectStartDate,
 					projectEndDate: e.a_projectEndDate,
 					// 保留原始字段，防止后续有需要
-					...e,
+					...e
 				};
 			});
 			inquiryTotal.value = res.pagination?.total || 0;
@@ -816,14 +1006,14 @@ async function refreshInquiryPage(params?: Partial<typeof inquiryParams>) {
 }
 
 function formatRange(start?: any, end?: any) {
-	const s = start ? String(start).slice(0, 10) : "";
-	const e = end ? String(end).slice(0, 10) : "";
-	return s || e ? `${s || "-"} ~ ${e || "-"}` : "-";
+	const s = start ? String(start).slice(0, 10) : '';
+	const e = end ? String(end).slice(0, 10) : '';
+	return s || e ? `${s || '-'} ~ ${e || '-'}` : '-';
 }
 
 function formatLocation(v: any) {
-	if (Array.isArray(v)) return v.filter(Boolean).join("");
-	return v || "-";
+	if (Array.isArray(v)) return v.filter(Boolean).join('');
+	return v || '-';
 }
 
 function getInquiryField(info: any, key: string | string[]) {
@@ -853,58 +1043,58 @@ function getInquiryField(info: any, key: string | string[]) {
 
 function formatSiteEnv(v: any) {
 	const map: Record<number, string> = {
-		0: t("本体落地装（正装）"),
-		1: t("倒装"),
-		2: t("高台"),
-		3: t("不入场"),
+		0: t('本体落地装（正装）'),
+		1: t('倒装'),
+		2: t('高台'),
+		3: t('不入场')
 	};
-	return typeof v === "number" ? map[v] ?? v : v ?? "-";
+	return typeof v === 'number' ? (map[v] ?? v) : (v ?? '-');
 }
 
 function formatDebugOwnership(v: any) {
 	const map: Record<number, string> = {
-		0: t("不需要"),
-		1: t("科海"),
-		2: t("客户"),
+		0: t('不需要'),
+		1: t('科海'),
+		2: t('客户')
 	};
-	return typeof v === "number" ? map[v] ?? v : v ?? "-";
+	return typeof v === 'number' ? (map[v] ?? v) : (v ?? '-');
 }
 
 function formatMaintenanceType(v: any) {
 	const map: Record<number, string> = {
-		0: t("基础"),
-		1: t("高级"),
+		0: t('基础'),
+		1: t('高级')
 	};
-	return typeof v === "number" ? map[v] ?? v : v ?? "-";
+	return typeof v === 'number' ? (map[v] ?? v) : (v ?? '-');
 }
 
 function formatConstructionType(v: any) {
 	const map: Record<number, string> = {
-		0: t("工作站搬迁"),
-		1: t("工作站改造"),
-		2: t("工作站恢复功能"),
-		3: t("工作站翻新"),
-		4: t("新建工作站"),
+		0: t('工作站搬迁'),
+		1: t('工作站改造'),
+		2: t('工作站恢复功能'),
+		3: t('工作站翻新'),
+		4: t('新建工作站')
 	};
-	return typeof v === "number" ? map[v] ?? v : v ?? "-";
+	return typeof v === 'number' ? (map[v] ?? v) : (v ?? '-');
 }
 
 function formatHoistingRequirement(v: any) {
 	const map: Record<number, string> = {
-		0: t("无"),
-		1: t("吊装机"),
-		2: t("龙门架"),
-		3: t("现场建筑"),
-		4: t("其他"),
+		0: t('无'),
+		1: t('吊装机'),
+		2: t('龙门架'),
+		3: t('现场建筑'),
+		4: t('其他')
 	};
-	return typeof v === "number" ? map[v] ?? v : v ?? "-";
+	return typeof v === 'number' ? (map[v] ?? v) : (v ?? '-');
 }
 
 function normalizeSpareItems(info: any): Array<any> {
-	const raw = getInquiryField(info, "spareItems");
+	const raw = getInquiryField(info, 'spareItems');
 	if (!raw) return [];
 	let list = raw;
-	if (typeof raw === "string") {
+	if (typeof raw === 'string') {
 		try {
 			const parsed = JSON.parse(raw);
 			list = parsed;
@@ -913,57 +1103,24 @@ function normalizeSpareItems(info: any): Array<any> {
 		}
 	}
 	if (!Array.isArray(list)) return [];
-	const spareItems = list.map((e: any) => ({
-		...e,
-		unitPriceExclTax: "暂无估计",
-		unitPriceInclTax: "暂无估计",
-	}));
-	spareItems.forEach(async (item: any, index: number) => {
-		try {
-			// 发送网络请求（参考 post.py）
-		const payload = {
-			brand: item.brand || "无",
-			material_name: item.name || "无",
-		};
-		const response = await fetch('/agent/dify/material', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(payload)
-		});
-		const materialResponseStatu = await response.json();
-		if (response.ok) {
-			spareItems[index].unitPriceInclTax = materialResponseStatu.data.outputs.pricewithtax;
-			spareItems[index].unitPriceExclTax = materialResponseStatu.data.outputs.pricewithouttax;
-		}
-	} catch (error) {
-		console.error('物料查询请求失败:', error);
-	}
-
-
-	})
-	return spareItems.map((e: any) => {
+	return list.map((e: any) => {
 		return {
-			name: e?.name ?? "",
-			categoryBig: e?.categoryBig ?? e?.bigCategory ?? e?.category ?? "",
-			categorySmall: e?.categorySmall ?? e?.subCategory ?? "",
-			spec: e?.spec ?? "",
-			quantity: e?.quantity ?? "",
-			brand: e?.brand ?? e?.remark ?? "",
-			unitPriceExclTax: e?.unitPriceExclTax ?? "",
-			unitPriceInclTax: e?.unitPriceInclTax ?? "",
+			name: e?.name ?? '',
+			categoryBig: e?.categoryBig ?? e?.bigCategory ?? e?.category ?? '',
+			categorySmall: e?.categorySmall ?? e?.subCategory ?? '',
+			spec: e?.spec ?? '',
+			quantity: e?.quantity ?? '',
+			brand: e?.brand ?? e?.remark ?? ''
 		};
 	});
 }
-
 
 function normalizeFiles(val: any): string[] {
 	if (!val) return [];
 
 	let list = val;
 
-	if (typeof val === "string") {
+	if (typeof val === 'string') {
 		// 尝试解析为 JSON 数组；如果失败则认为是单个 URL
 		try {
 			const parsed = JSON.parse(val);
@@ -975,16 +1132,16 @@ function normalizeFiles(val: any): string[] {
 
 	if (Array.isArray(list)) {
 		return list
-			.map((e) => {
-				if (!e) return "";
+			.map(e => {
+				if (!e) return '';
 				// 既兼容纯字符串 URL，也兼容 { url: '' } 结构
-				return typeof e === "string" ? e : e.url || "";
+				return typeof e === 'string' ? e : e.url || '';
 			})
 			.filter(Boolean);
 	}
 
 	// 兼容 { url: '' } 单对象
-	if (typeof list === "object" && (list as any).url) {
+	if (typeof list === 'object' && (list as any).url) {
 		return [(list as any).url];
 	}
 
@@ -1001,9 +1158,9 @@ function addSpareMaterial(form: any) {
 	if (!form) return;
 	ensureSpareItems(form);
 	form.spareQuoteItems.push({
-		materialName:undefined,
-		spec:undefined,
-		suppliers: [],
+		materialName: undefined,
+		spec: undefined,
+		suppliers: []
 	});
 }
 
@@ -1032,7 +1189,7 @@ function addSpareSupplier(form: any, materialIndex: number) {
 		freight: undefined,
 		delivery: undefined,
 		images: [],
-		remark: "",
+		remark: ''
 	});
 }
 
@@ -1049,7 +1206,7 @@ function removeSpareSupplier(form: any, materialIndex: number, supplierIndex: nu
 function normalizespareQuoteItems(val: any): Array<any> {
 	if (!val) return [];
 	let list = val;
-	if (typeof val === "string") {
+	if (typeof val === 'string') {
 		try {
 			const parsed = JSON.parse(val);
 			list = parsed;
@@ -1062,19 +1219,19 @@ function normalizespareQuoteItems(val: any): Array<any> {
 	return list.map((m: any) => {
 		const suppliers = Array.isArray(m?.suppliers) ? m.suppliers : [];
 		return {
-			materialName: m?.materialName ?? "",
-			spec: m?.spec ?? "",
+			materialName: m?.materialName ?? '',
+			spec: m?.spec ?? '',
 			suppliers: suppliers.map((s: any) => ({
-				supplier: s?.supplier ?? "",
+				supplier: s?.supplier ?? '',
 				unitPriceExclTax: s?.unitPriceExclTax,
 				taxRate: s?.taxRate,
 				unitPriceInclTax: s?.unitPriceInclTax,
 				totalPriceInclTax: s?.totalPriceInclTax,
 				freight: s?.freight,
-				delivery: s?.delivery ?? "",
+				delivery: s?.delivery ?? '',
 				images: s?.images ?? [],
-				remark: s?.remark ?? "",
-			})),
+				remark: s?.remark ?? ''
+			}))
 		};
 	});
 }
@@ -1084,7 +1241,7 @@ function normalizeLaborItems(val: any): Array<{ name: string; cost?: any }> {
 
 	let list = val;
 
-	if (typeof val === "string") {
+	if (typeof val === 'string') {
 		try {
 			const parsed = JSON.parse(val);
 			list = parsed;
@@ -1097,8 +1254,8 @@ function normalizeLaborItems(val: any): Array<{ name: string; cost?: any }> {
 
 	return list.map((e: any) => {
 		return {
-			name: e.name ?? "",
-			cost: e.cost,
+			name: e.name ?? '',
+			cost: e.cost
 		};
 	});
 }
@@ -1109,7 +1266,7 @@ function openAddQuote(inquiry: Eps.CompanyInquiryEntity) {
 
 	// 至少需要 id 或 单号 其一
 	if (!inquiryId && !inquiryNo) {
-		ElMessage.error(t("请选择有效的询价"));
+		ElMessage.error(t('请选择有效的询价'));
 		return;
 	}
 
@@ -1128,188 +1285,192 @@ function openAddQuote(inquiry: Eps.CompanyInquiryEntity) {
 		inquiryProjectStartDate:
 			(inquiry as any).projectStartDate ?? (inquiry as any).inquiryProjectStartDate,
 		inquiryProjectEndDate:
-			(inquiry as any).projectEndDate ?? (inquiry as any).inquiryProjectEndDate,
+			(inquiry as any).projectEndDate ?? (inquiry as any).inquiryProjectEndDate
 	});
 }
 
 const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 	dialog: {
-		width: "1000px",
+		width: '1000px'
 	},
 	props: {
-		labelWidth: "120px",
+		labelWidth: '120px'
 	},
 	items: [
 		{
-			component: { name: "slot-inquiryInfo" },
+			component: { name: 'slot-inquiryInfo' }
 		},
 		// 隐藏字段：用于展示询价摘要（不提交）
-		{ prop: "inquiryNo", hidden: true, component: { name: "el-input" } },
-		{ prop: "inquiryCustomer", hidden: true, component: { name: "el-input" } },
-		{ prop: "inquiryProjectName", hidden: true, component: { name: "el-input" } },
-		{ prop: "inquiryProjectStartDate", hidden: true, component: { name: "el-input" } },
-		{ prop: "inquiryProjectEndDate", hidden: true, component: { name: "el-input" } },
+		{ prop: 'inquiryNo', hidden: true, component: { name: 'el-input' } },
+		{ prop: 'inquiryCustomer', hidden: true, component: { name: 'el-input' } },
+		{ prop: 'inquiryProjectName', hidden: true, component: { name: 'el-input' } },
+		{ prop: 'inquiryProjectStartDate', hidden: true, component: { name: 'el-input' } },
+		{ prop: 'inquiryProjectEndDate', hidden: true, component: { name: 'el-input' } },
 
 		() => {
 			return () => {
 				return {
-					label: t("报价单号"),
-					prop: "quoteNo",
+					label: t('报价单号'),
+					prop: 'quoteNo',
 					span: 12,
-					hidden: Upsert.value?.mode == "add",
+					hidden: Upsert.value?.mode == 'add',
 					component: {
-						name: "el-input",
+						name: 'el-input',
 						props: {
 							disabled: true,
-							placeholder: t("保存后自动生成"),
-						},
-					},
+							placeholder: t('保存后自动生成')
+						}
+					}
 				};
 			};
 		},
 		{
-			label: t("询价ID"),
-			prop: "inquiryId",
+			label: t('询价ID'),
+			prop: 'inquiryId',
 			component: {
-				name: "el-input-number",
+				name: 'el-input-number',
 				props: {
 					disabled: true,
 					controls: false,
-					min: 1,
-				},
+					min: 1
+				}
 			},
 			hidden: true,
-			required: false,
+			required: false
 		},
 		{
-			label: t("询价类型"),
-			prop: "inquiryType",
-			component: { name: "el-radio-group", options: options.inquiryType, props: { disabled: true } },
+			label: t('询价类型'),
+			prop: 'inquiryType',
+			component: {
+				name: 'el-radio-group',
+				options: options.inquiryType,
+				props: { disabled: true }
+			},
 			hidden: true,
-			required: false,
+			required: false
 		},
 
 		// 备件类专属：多物料 × 多供应商报价明细
 		{
-			label: t("备件类报价明细"),
-			prop: "spareQuoteItems",
+			label: t('备件类报价明细'),
+			prop: 'spareQuoteItems',
 			span: 24,
-			component: { name: "slot-spareQuoteItems" },
+			component: { name: 'slot-spareQuoteItems' },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType !== 4,
+			hidden: ({ scope }: any) => scope.inquiryType !== 4
 		},
 
 		{
-			label: t("分解成本1-备件"),
-			prop: "costSpareParts",
+			label: t('分解成本1-备件'),
+			prop: 'costSpareParts',
 			span: 12,
-			component: { name: "el-input", props: { clearable: true } },
+			component: { name: 'el-input', props: { clearable: true } },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("分解成本2-工具"),
-			prop: "costTools",
+			label: t('分解成本2-工具'),
+			prop: 'costTools',
 			span: 12,
-			component: { name: "el-input", props: { clearable: true } },
+			component: { name: 'el-input', props: { clearable: true } },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("分解成本3-软件"),
-			prop: "costSoftware",
+			label: t('分解成本3-软件'),
+			prop: 'costSoftware',
 			span: 12,
-			component: { name: "el-input", props: { clearable: true } },
+			component: { name: 'el-input', props: { clearable: true } },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("分解成本4-人工（可逐条添加）"),
-			prop: "costLaborItems",
+			label: t('分解成本4-人工（可逐条添加）'),
+			prop: 'costLaborItems',
 			span: 24,
-			component: { name: "slot-laborItems" },
+			component: { name: 'slot-laborItems' },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("分解成本5-交通"),
-			prop: "costTraffic",
+			label: t('分解成本5-交通'),
+			prop: 'costTraffic',
 			span: 12,
-			component: { name: "el-input", props: { clearable: true } },
+			component: { name: 'el-input', props: { clearable: true } },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("分解成本6-售后"),
-			prop: "costAfterSales",
+			label: t('分解成本6-售后'),
+			prop: 'costAfterSales',
 			span: 12,
-			component: { name: "el-input", props: { clearable: true } },
+			component: { name: 'el-input', props: { clearable: true } },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("分解成本7-培训报告"),
-			prop: "costTrainingReport",
+			label: t('分解成本7-培训报告'),
+			prop: 'costTrainingReport',
 			span: 12,
-			component: { name: "el-input", props: { clearable: true } },
+			component: { name: 'el-input', props: { clearable: true } },
 			required: true,
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("总成本"),
-			prop: "totalCost",
+			label: t('总成本'),
+			prop: 'totalCost',
 			span: 12,
 			component: {
-				name: "el-input-number",
+				name: 'el-input-number',
 				props: {
 					min: 0,
-					controls: false,
-				},
+					controls: false
+				}
 			},
-			required: true,
+			required: true
 		},
 		{
-			label: t("供应商"),
-			prop: "supplier",
+			label: t('供应商'),
+			prop: 'supplier',
 			span: 12,
 			required: true,
-			component: { name: "el-input", props: { clearable: true } },
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			component: { name: 'el-input', props: { clearable: true } },
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("未税报价"),
-			prop: "priceExclTax",
+			label: t('未税报价'),
+			prop: 'priceExclTax',
 			span: 12,
 			required: true,
-			component: { name: "el-input-number", props: { min: 0, controls: false } },
+			component: { name: 'el-input-number', props: { min: 0, controls: false } }
 		},
 		{
-			label: t("税率（%）"),
-			prop: "taxRate",
+			label: t('税率（%）'),
+			prop: 'taxRate',
 			span: 12,
 			required: true,
-			component: { name: "el-input-number", props: { min: 0, controls: false } },
-			hidden: ({ scope }: any) => scope.inquiryType === 4,
+			component: { name: 'el-input-number', props: { min: 0, controls: false } },
+			hidden: ({ scope }: any) => scope.inquiryType === 4
 		},
 		{
-			label: t("含税报价"),
-			prop: "priceInclTax",
+			label: t('含税报价'),
+			prop: 'priceInclTax',
 			span: 12,
 			required: true,
-			component: { name: "el-input-number", props: { min: 0, controls: false } },
-		},
+			component: { name: 'el-input-number', props: { min: 0, controls: false } }
+		}
 	],
 
 	onOpened(data) {
 		// 编辑已有报价时，优先使用后端返回的嵌套 inquiry 信息
-		if (Upsert.value?.mode === "update") {
+		if (Upsert.value?.mode === 'update') {
 			const q: any = data || {};
 			const inquiry = q.inquiry || {};
 
 			// 直接用嵌套的 inquiry 作为展示源，字段名本身就与询价页面一致
 			if (inquiry && inquiry.id) {
 				// 方便前端调试查看后端返回的嵌套询价信息
-				console.log("[company-quote] nested inquiry from quote.info:", inquiry);
+				console.log('[company-quote] nested inquiry from quote.info:', inquiry);
 				currentInquiryInfo.value = inquiry;
 			} else {
 				// 兜底：仍然用当前报价上的字段做一次映射
@@ -1320,7 +1481,7 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 					customer: q.customer ?? q.inquiryCustomer,
 					projectName: q.projectName ?? q.inquiryProjectName,
 					projectStartDate: q.projectStartDate ?? q.inquiryProjectStartDate,
-					projectEndDate: q.projectEndDate ?? q.inquiryProjectEndDate,
+					projectEndDate: q.projectEndDate ?? q.inquiryProjectEndDate
 				};
 			}
 		}
@@ -1328,7 +1489,7 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 		const v = (data as any).costLaborItems;
 
 		// 后端可能返回 string/json/object，这里统一成数组，保证可增删
-		if (typeof v === "string") {
+		if (typeof v === 'string') {
 			try {
 				const parsed = JSON.parse(v);
 				(data as any).costLaborItems = Array.isArray(parsed) ? parsed : [];
@@ -1344,7 +1505,7 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 		// 保养类：初始化 spareQuoteItems 结构
 		const mq = (data as any).spareQuoteItems;
 		if (mq) {
-			if (typeof mq === "string") {
+			if (typeof mq === 'string') {
 				try {
 					const parsed = JSON.parse(mq);
 					(data as any).spareQuoteItems = Array.isArray(parsed) ? parsed : [];
@@ -1363,7 +1524,11 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 		// 兜底：确保提交时至少带上 inquiryId 或 inquiryNo 其一
 
 		// 1. 补 inquiryId：优先用表单里的，其次用选中行的 id（数字）
-		if (!data.inquiryId && inquirySelectedKey.value && typeof inquirySelectedKey.value === "number") {
+		if (
+			!data.inquiryId &&
+			inquirySelectedKey.value &&
+			typeof inquirySelectedKey.value === 'number'
+		) {
 			data.inquiryId = inquirySelectedKey.value;
 		}
 
@@ -1391,7 +1556,7 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 		}
 
 		if (!data.inquiryId && !data.inquiryNo) {
-			ElMessage.error(t("缺少有效的询价信息"));
+			ElMessage.error(t('缺少有效的询价信息'));
 			done();
 			return;
 		}
@@ -1405,14 +1570,14 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 		// NOTE: 新增报价时表单可能未携带 inquiryType，使用当前选中询价作为兜底
 		const effectiveInquiryType = Number(
 			(data as any).inquiryType ??
-			(data as any).inquiry?.inquiryType ??
-			currentInquiryInfo.value?.inquiryType,
+				(data as any).inquiry?.inquiryType ??
+				currentInquiryInfo.value?.inquiryType
 		);
 
 		if (effectiveInquiryType === 4) {
 			const items = (data as any).spareQuoteItems;
 			if (!Array.isArray(items) || items.length === 0) {
-				ElMessage.error(t("请至少填写一条备件物料报价"));
+				ElMessage.error(t('请至少填写一条备件物料报价'));
 				done();
 				return;
 			}
@@ -1420,12 +1585,12 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 			for (let i = 0; i < items.length; i++) {
 				const m = items[i] || {};
 				if (!m.materialName || !m.spec) {
-					ElMessage.error(t("备件物料的名称和规格型号为必填项"));
+					ElMessage.error(t('备件物料的名称和规格型号为必填项'));
 					done();
 					return;
 				}
 				if (!Array.isArray(m.suppliers) || m.suppliers.length === 0) {
-					ElMessage.error(t("每个备件物料至少需要一条供应商报价"));
+					ElMessage.error(t('每个备件物料至少需要一条供应商报价'));
 					done();
 					return;
 				}
@@ -1440,7 +1605,7 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 						s.freight === undefined ||
 						!s.delivery
 					) {
-						ElMessage.error(t("备件类供应商报价中除备注和图片外均为必填项"));
+						ElMessage.error(t('备件类供应商报价中除备注和图片外均为必填项'));
 						done();
 						return;
 					}
@@ -1450,11 +1615,11 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 
 		// 新增 / 编辑分别调用对应接口，保证更新时间等由后端正确维护
 		const mode = Upsert.value?.mode;
-		const req = mode === "update" ? service.company.quote.update : service.company.quote.add;
+		const req = mode === 'update' ? service.company.quote.update : service.company.quote.add;
 
 		req.call(service.company.quote, data)
 			.then(() => {
-				ElMessage.success(t("保存成功"));
+				ElMessage.success(t('保存成功'));
 				refresh();
 				refreshInquiryPage({ page: 1 });
 				close();
@@ -1469,40 +1634,40 @@ const Upsert = useUpsert<Eps.CompanyQuoteEntity>({
 		// 关闭弹窗时清空当前询价缓存，避免下次编辑时沿用旧数据
 		currentInquiryInfo.value = null;
 		done();
-	},
+	}
 });
 
 // cl-table
 const Table = useTable<Eps.CompanyQuoteEntity>({
 	columns: [
-		{ type: "selection", width: 60 },
-		{ label: t("报价单号"), prop: "quoteNo", minWidth: 160 },
-		{ label: t("询价单号"), prop: "inquiryNo", minWidth: 160 },
+		{ type: 'selection', width: 60 },
+		{ label: t('报价单号'), prop: 'quoteNo', minWidth: 160 },
+		{ label: t('询价单号'), prop: 'inquiryNo', minWidth: 160 },
 		{
-			label: t("询价类型"),
-			prop: "inquiryType",
+			label: t('询价类型'),
+			prop: 'inquiryType',
 			minWidth: 120,
-			dict: options.inquiryType,
+			dict: options.inquiryType
 		},
-		{ label: t("未税报价"), prop: "priceExclTax", minWidth: 120 },
-		{ label: t("含税报价"), prop: "priceInclTax", minWidth: 120 },
-		{ label: t("总成本"), prop: "totalCost", minWidth: 120 },
+		{ label: t('未税报价'), prop: 'priceExclTax', minWidth: 120 },
+		{ label: t('含税报价'), prop: 'priceInclTax', minWidth: 120 },
+		{ label: t('总成本'), prop: 'totalCost', minWidth: 120 },
 		{
-			label: t("创建时间"),
-			prop: "createTime",
+			label: t('创建时间'),
+			prop: 'createTime',
 			minWidth: 170,
-			sortable: "desc",
-			component: { name: "cl-date-text" },
+			sortable: 'desc',
+			component: { name: 'cl-date-text' }
 		},
 		{
-			label: t("更新时间"),
-			prop: "updateTime",
+			label: t('更新时间'),
+			prop: 'updateTime',
 			minWidth: 170,
-			sortable: "custom",
-			component: { name: "cl-date-text" },
+			sortable: 'custom',
+			component: { name: 'cl-date-text' }
 		},
-		{ type: "op", buttons: ["edit", "delete"], width: 170 },
-	],
+		{ type: 'op', buttons: ['edit', 'delete'], width: 170 }
+	]
 });
 
 // cl-crud
@@ -1513,11 +1678,11 @@ const Crud = useCrud(
 			return next({ ids: selection.map((e: any) => e.id) }).then(() => {
 				refreshInquiryPage({ page: 1 });
 			});
-		},
+		}
 	},
-	(app) => {
+	app => {
 		app.refresh();
-	},
+	}
 );
 
 // 刷新

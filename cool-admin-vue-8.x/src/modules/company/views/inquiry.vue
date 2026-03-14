@@ -1,4 +1,5 @@
 <template>
+	<inquiry-agent />
 	<cl-crud ref="Crud">
 		<cl-row>
 			<cl-refresh-btn />
@@ -182,6 +183,7 @@ import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
 import { reactive } from "vue";
 import { Document } from "@element-plus/icons-vue";
+import InquiryAgent from "./inquiry_agent.vue";
 
 const { service } = useCool();
 const { t } = useI18n();
@@ -437,7 +439,7 @@ const Upsert = useUpsert<Eps.CompanyInquiryEntity>({
 			},
 			span: 24,
 		},
-		
+
 		{
 			label: t("现场附件（图片/视频）"),
 			prop: "siteAttachments",
@@ -587,7 +589,7 @@ const Upsert = useUpsert<Eps.CompanyInquiryEntity>({
 			required: true,
 			hidden: ({ scope }: any) => scope.inquiryType == 4,
 		},
-		
+
 		// 询价类别字段仅作为内部映射使用，不再单独展示
 		{
 			label: t("销售类别"),
@@ -601,7 +603,7 @@ const Upsert = useUpsert<Eps.CompanyInquiryEntity>({
 			required: false,
 			hidden: () => true,
 		},
-		
+
 		// 备件类专属字段（inquiryType = 4）- 多物料列表（spareItems）
 		{
 			label: t("物料列表"),
