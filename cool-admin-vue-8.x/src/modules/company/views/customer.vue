@@ -17,15 +17,7 @@
 			<cl-pagination />
 		</cl-row>
 
-		<cl-upsert ref="Upsert">
-			<template #slot-tabs>
-				<el-tabs v-model="upsertActiveTab" type="card">
-					<el-tab-pane :label="$t('客户基础信息')" name="base" />
-					<el-tab-pane :label="$t('客户背调信息')" name="bg" />
-					<el-tab-pane :label="$t('客户拜访信息')" name="visit" />
-				</el-tabs>
-			</template>
-		</cl-upsert>
+		<cl-upsert ref="Upsert" />
 	</cl-crud>
 </template>
 
@@ -37,7 +29,8 @@ defineOptions({
 import { useCrud, useTable, useUpsert } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
+import { ElMessage } from "element-plus";
 
 const { service } = useCool();
 const { t } = useI18n();
@@ -113,8 +106,6 @@ const options = reactive({
 	],
 });
 
-const upsertActiveTab = ref<"base" | "bg" | "visit">("base");
-
 const Upsert = useUpsert<any>({
 	dialog: {
 		width: "1100px",
@@ -123,14 +114,6 @@ const Upsert = useUpsert<any>({
 		labelWidth: "130px",
 	},
 	items: [
-		// 顶部标签切换：基础信息 / 背调信息 / 拜访信息
-		{
-			span: 24,
-			component: {
-				name: "slot-tabs",
-			},
-		},
-
 		// 1. 客户基础信息
 		() => {
 			return () => {
@@ -155,7 +138,6 @@ const Upsert = useUpsert<any>({
 			span: 12,
 			required: true,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("客户性质"),
@@ -167,7 +149,6 @@ const Upsert = useUpsert<any>({
 				options: options.customerNature,
 				props: { clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("客户级别"),
@@ -179,14 +160,12 @@ const Upsert = useUpsert<any>({
 				options: options.level,
 				props: { clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("统一信用代码"),
 			prop: "socialCreditCode",
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("管理状态"),
@@ -197,7 +176,6 @@ const Upsert = useUpsert<any>({
 				options: options.manageStatus,
 				props: { clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("成交状态"),
@@ -208,7 +186,6 @@ const Upsert = useUpsert<any>({
 				options: options.dealStatus,
 				props: { clearable: true, disabled: true },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("合同数量"),
@@ -218,7 +195,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("赢单状态"),
@@ -229,7 +205,6 @@ const Upsert = useUpsert<any>({
 				options: options.winStatus,
 				props: { clearable: true, disabled: true },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("最近成交时间"),
@@ -239,7 +214,6 @@ const Upsert = useUpsert<any>({
 				name: "cl-date-text",
 				props: { format: "YYYY-MM-DD HH:mm" },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("拜访次数"),
@@ -253,7 +227,6 @@ const Upsert = useUpsert<any>({
 					controls: false,
 				},
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("距上次合作时间（天）"),
@@ -267,7 +240,6 @@ const Upsert = useUpsert<any>({
 					controls: false,
 				},
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("合同订单总额"),
@@ -277,7 +249,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("应收款余额"),
@@ -287,7 +258,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("退款总额"),
@@ -297,7 +267,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("开票总额"),
@@ -307,7 +276,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("询价单数量"),
@@ -317,7 +285,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("报价单数量"),
@@ -327,7 +294,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 		{
 			label: t("转换率（合同数/报价单数）"),
@@ -337,7 +303,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { disabled: true },
 			},
-			hidden: () => upsertActiveTab.value !== "base",
 		},
 
 		// 2. 客户背调信息
@@ -351,7 +316,6 @@ const Upsert = useUpsert<any>({
 				options: options.backgroundSource,
 				props: { clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("公司背景"),
@@ -362,7 +326,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("成立时间"),
@@ -377,7 +340,6 @@ const Upsert = useUpsert<any>({
 					clearable: true,
 				},
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("企业注册资金"),
@@ -387,7 +349,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("企业性质"),
@@ -395,7 +356,6 @@ const Upsert = useUpsert<any>({
 			required: true,
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("是否上市"),
@@ -406,7 +366,6 @@ const Upsert = useUpsert<any>({
 				name: "el-radio-group",
 				options: options.backgroundIsListed,
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("当年营业额"),
@@ -416,7 +375,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("上一年营业额"),
@@ -426,7 +384,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("上上年营业额"),
@@ -436,7 +393,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("行业"),
@@ -444,7 +400,6 @@ const Upsert = useUpsert<any>({
 			required: true,
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("企业经营项目"),
@@ -455,21 +410,18 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("上级客户"),
 			prop: "backgroundSuperiorCustomer",
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("下游客户"),
 			prop: "backgroundDownstreamCustomer",
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("机器人工艺"),
@@ -480,14 +432,12 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("公司网址"),
 			prop: "backgroundWebsite",
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("电话"),
@@ -495,7 +445,6 @@ const Upsert = useUpsert<any>({
 			required: true,
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("电子邮件"),
@@ -503,7 +452,6 @@ const Upsert = useUpsert<any>({
 			required: true,
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("备注"),
@@ -513,7 +461,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("国家"),
@@ -525,7 +472,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { clearable: true, placeholder: t("默认中国，可修改") },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("省"),
@@ -533,7 +479,6 @@ const Upsert = useUpsert<any>({
 			required: true,
 			span: 6,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("市"),
@@ -541,14 +486,12 @@ const Upsert = useUpsert<any>({
 			required: true,
 			span: 6,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("区"),
 			prop: "backgroundDistrict",
 			span: 6,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("详细地址"),
@@ -556,7 +499,6 @@ const Upsert = useUpsert<any>({
 			required: true,
 			span: 12,
 			component: { name: "el-input", props: { clearable: true } },
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("负责人"),
@@ -570,17 +512,16 @@ const Upsert = useUpsert<any>({
 					placeholder: t("请输入负责人姓名"),
 				},
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("负责人所在部门"),
 			prop: "backgroundOwnerDept",
 			span: 12,
+			value: "销售部",
 			component: {
 				name: "el-input",
 				props: { clearable: true, placeholder: t("默认销售部，可修改") },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("协作人"),
@@ -611,7 +552,6 @@ const Upsert = useUpsert<any>({
 						.filter((e) => e);
 				},
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		// 创建与变更信息（只读）
 		{
@@ -622,7 +562,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { disabled: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("创建时间"),
@@ -632,7 +571,6 @@ const Upsert = useUpsert<any>({
 				name: "cl-date-text",
 				props: { format: "YYYY-MM-DD HH:mm" },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("最后修改人"),
@@ -642,7 +580,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { disabled: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("最后修改时间"),
@@ -652,7 +589,6 @@ const Upsert = useUpsert<any>({
 				name: "cl-date-text",
 				props: { format: "YYYY-MM-DD HH:mm" },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("上一次负责人"),
@@ -662,7 +598,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { disabled: true },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 		{
 			label: t("负责人变更时间"),
@@ -672,7 +607,6 @@ const Upsert = useUpsert<any>({
 				name: "cl-date-text",
 				props: { format: "YYYY-MM-DD HH:mm" },
 			},
-			hidden: () => upsertActiveTab.value !== "bg",
 		},
 
 		// 3. 客户拜访信息
@@ -686,7 +620,6 @@ const Upsert = useUpsert<any>({
 				options: options.lastFollowType,
 				props: { clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("最近跟进时间"),
@@ -701,7 +634,6 @@ const Upsert = useUpsert<any>({
 					clearable: true,
 				},
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("最近跟进人"),
@@ -711,7 +643,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { clearable: true, placeholder: t("如不填写将默认当前登录人") },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("跟进状态"),
@@ -722,7 +653,6 @@ const Upsert = useUpsert<any>({
 				name: "el-radio-group",
 				options: options.followStatus,
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("距上次跟进（天）"),
@@ -732,7 +662,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { disabled: true, min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("最近跟进内容"),
@@ -743,7 +672,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("工厂情况"),
@@ -755,7 +683,6 @@ const Upsert = useUpsert<any>({
 				options: options.factorySituation,
 				props: { clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("设备情况（品牌、数量、型号）"),
@@ -766,7 +693,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("机器人总数量"),
@@ -777,7 +703,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("车间个数"),
@@ -787,7 +712,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input-number",
 				props: { min: 0, controls: false },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("应用车间"),
@@ -797,7 +721,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("是否有固定维保供应商"),
@@ -807,7 +730,6 @@ const Upsert = useUpsert<any>({
 				name: "el-radio-group",
 				options: options.hasFixedMaintenanceSupplier,
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("合作供应商"),
@@ -817,7 +739,6 @@ const Upsert = useUpsert<any>({
 				name: "el-input",
 				props: { type: "textarea", rows: 3, clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("是否与我司有过合作"),
@@ -828,7 +749,6 @@ const Upsert = useUpsert<any>({
 				name: "el-radio-group",
 				options: options.hasCooperatedWithUs,
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("合作起止时间"),
@@ -856,7 +776,6 @@ const Upsert = useUpsert<any>({
 					clearable: true,
 				},
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 		{
 			label: t("合作意向"),
@@ -868,11 +787,61 @@ const Upsert = useUpsert<any>({
 				options: options.cooperationIntention,
 				props: { clearable: true },
 			},
-			hidden: () => upsertActiveTab.value !== "visit",
 		},
 	],
 
-	onSubmit(data, { next }) {
+	onSubmit(data, { next, done }) {
+		// 跨标签必填校验：新增客户必须三块信息都填完
+		const requiredMap: Array<{ key: string; label: string; tab: "base" | "bg" | "visit" }> = [
+			// 基础信息
+			{ key: "customerName", label: t("客户名称"), tab: "base" },
+			{ key: "customerNature", label: t("客户性质"), tab: "base" },
+			{ key: "level", label: t("客户级别"), tab: "base" },
+			// 背调信息
+			{ key: "backgroundSource", label: t("来源"), tab: "bg" },
+			{ key: "backgroundCompanyProfile", label: t("公司背景"), tab: "bg" },
+			{ key: "backgroundEstablishDate", label: t("成立时间"), tab: "bg" },
+			{ key: "backgroundEnterpriseType", label: t("企业性质"), tab: "bg" },
+			{ key: "backgroundIsListed", label: t("是否上市"), tab: "bg" },
+			{ key: "backgroundIndustry", label: t("行业"), tab: "bg" },
+			{ key: "backgroundBusinessItems", label: t("企业经营项目"), tab: "bg" },
+			{ key: "backgroundRobotProcess", label: t("机器人工艺"), tab: "bg" },
+			{ key: "backgroundPhone", label: t("电话"), tab: "bg" },
+			{ key: "backgroundEmail", label: t("电子邮件"), tab: "bg" },
+			{ key: "backgroundCountry", label: t("国家"), tab: "bg" },
+			{ key: "backgroundProvince", label: t("省"), tab: "bg" },
+			{ key: "backgroundCity", label: t("市"), tab: "bg" },
+			{ key: "backgroundAddressDetail", label: t("详细地址"), tab: "bg" },
+			{ key: "backgroundOwnerUserId", label: t("负责人"), tab: "bg" },
+			// 拜访信息
+			{ key: "lastFollowType", label: t("最近跟进类型"), tab: "visit" },
+			{ key: "lastFollowDate", label: t("最近跟进时间"), tab: "visit" },
+			{ key: "followStatus", label: t("跟进状态"), tab: "visit" },
+			{ key: "lastFollowContent", label: t("最近跟进内容"), tab: "visit" },
+			{ key: "factorySituation", label: t("工厂情况"), tab: "visit" },
+			{ key: "deviceSituation", label: t("设备情况（品牌、数量、型号）"), tab: "visit" },
+			{ key: "robotTotalCount", label: t("机器人总数量"), tab: "visit" },
+			{ key: "hasCooperatedWithUs", label: t("是否与我司有过合作"), tab: "visit" },
+			{ key: "cooperationIntention", label: t("合作意向"), tab: "visit" },
+		];
+
+		for (const item of requiredMap) {
+			const v = (data as any)[item.key];
+			if (v === undefined || v === null || v === "") {
+				ElMessage.error(t("请在【{section}】中填写「{field}」", {
+					section:
+						item.tab === "base"
+							? t("客户基础信息")
+							: item.tab === "bg"
+								? t("客户背调信息")
+								: t("客户拜访信息"),
+					field: item.label,
+				}));
+				done();
+				return;
+			}
+		}
+
 		// 删除由后端自动维护的字段，避免误修改
 		const payload = {
 			...data,
