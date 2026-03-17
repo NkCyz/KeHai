@@ -1,5 +1,5 @@
 <template>
-	<quote-agent />
+	<supple_agent />
 	<div class="company-quote">
 		<!-- 待报价询价列表 -->
 		<div class="company-quote__left">
@@ -927,7 +927,8 @@ import { useI18n } from 'vue-i18n';
 import { reactive, ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import type { TagProps } from 'element-plus';
-import QuoteAgent from './quote_agent.vue';
+
+import Supple_agent from './supple_agent.vue';
 
 const { service } = useCool();
 const { t } = useI18n();
