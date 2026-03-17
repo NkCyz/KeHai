@@ -5,7 +5,7 @@
 			<cl-add-btn />
 			<cl-multi-delete-btn />
 			<cl-flex1 />
-			<cl-search-key :placeholder="$t('搜索客户编码/客户名称/统一信用代码')" :width="260" />
+			<cl-search-key :placeholder="$t('搜索客户编码/客户名称')" :width="260" />
 		</cl-row>
 
 		<cl-row>
@@ -29,7 +29,7 @@ defineOptions({
 import { useCrud, useTable, useUpsert } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
-import { reactive } from "vue";
+import { reactive,ref } from "vue";
 import { ElMessage } from "element-plus";
 
 const { service } = useCool();
@@ -105,6 +105,8 @@ const options = reactive({
 		{ label: t("无"), value: 4 },
 	],
 });
+
+const upsertActiveTab = ref<"base" | "bg" | "visit">("base");
 
 const Upsert = useUpsert<any>({
 	dialog: {

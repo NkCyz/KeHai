@@ -15,8 +15,8 @@ import { CompanyCustomerService } from '../../service/customer';
     };
   },
   pageQueryOp: {
-    // 关键词模糊搜索：客户编号、名称、简称
-    keyWordLikeFields: ['a.customerNo', 'a.customerName', 'a.customerShortName'],
+    // 关键词模糊搜索：客户编号、名称
+    keyWordLikeFields: ['a.customerNo', 'a.customerName'],
     // 精确筛选字段
     fieldEq: [
       'a.customerNature',
