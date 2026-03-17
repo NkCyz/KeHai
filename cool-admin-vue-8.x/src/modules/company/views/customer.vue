@@ -1,4 +1,5 @@
 <template>
+	<sales_agent />
 	<cl-crud ref="Crud">
 		<cl-row>
 			<cl-refresh-btn />
@@ -31,6 +32,7 @@ import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
 import { reactive,ref } from "vue";
 import { ElMessage } from "element-plus";
+import Sales_agent from "./sales_agent.vue";
 
 const { service } = useCool();
 const { t } = useI18n();

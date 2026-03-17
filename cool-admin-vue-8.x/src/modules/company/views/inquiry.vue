@@ -1,5 +1,5 @@
 <template>
-	<supple_agent />
+	<sales_agent />
 	<cl-crud ref="Crud">
 		<cl-row>
 			<cl-refresh-btn />
@@ -183,7 +183,7 @@ import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
 import { reactive } from "vue";
 import { Document } from "@element-plus/icons-vue";
-import Supple_agent from "./supple_agent.vue";
+import Sales_agent from "./sales_agent.vue";
 
 const { service } = useCool();
 const { t } = useI18n();
