@@ -1,11 +1,11 @@
 [
   {
-    "name": "公司目录",
+    "name": "公司管理",
     "router": "/company",
     "perms": null,
     "type": 0,
     "icon": "icon-app",
-    "orderNum": 20,
+    "orderNum": 1,
     "viewPath": null,
     "keepAlive": true,
     "isShow": true,
