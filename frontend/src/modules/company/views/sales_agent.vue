@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onActivated, onBeforeUnmount, onDeactivated, onMounted } from 'vue';
 
-const token = 'poUf50o6soPzL64G';
+const token = 'QWBpxXQ1PyrWxejK';
 const baseUrl = 'http://localhost';
 
 declare global {
